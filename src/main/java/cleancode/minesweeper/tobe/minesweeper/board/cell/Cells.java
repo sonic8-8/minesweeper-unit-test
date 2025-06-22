@@ -25,6 +25,9 @@ public class Cells {
     public boolean isAllChecked() {
         return cells.stream()
                 .allMatch(Cell::isChecked);
+    }
 
+    public List<Cell> getCells() {
+        return List.copyOf(cells);
     }
 }

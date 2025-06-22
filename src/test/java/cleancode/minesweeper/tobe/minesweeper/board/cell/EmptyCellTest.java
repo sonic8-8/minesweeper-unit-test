@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class EmptyCellTest {
 
-    @DisplayName("사용자가 빈 칸을 열면, EMPTY 상태의 스냅샷을 반환한다.")
+    @DisplayName("사용자가 빈 셀을 열면, EMPTY 상태의 스냅샷을 반환한다.")
     @Test
     void getSnapshotWithOpenedEmptyCell() {
         // given
@@ -23,7 +23,7 @@ class EmptyCellTest {
                 .containsExactlyInAnyOrder(CellSnapshotStatus.EMPTY, 0);
     }
 
-    @DisplayName("사용자가 빈 칸에 깃발을 꽂으면, FLAG 상태의 스냅샷을 반환한다.")
+    @DisplayName("사용자가 빈 셀에 깃발을 꽂으면, FLAG 상태의 스냅샷을 반환한다.")
     @Test
     void getSnapshotWithFlaggedEmptyCell() {
         // given
