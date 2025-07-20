@@ -1,10 +1,12 @@
 package cleancode.minesweeper.tobe.minesweeper.board;
 
+import cleancode.minesweeper.tobe.minesweeper.board.cell.Cell;
 import cleancode.minesweeper.tobe.minesweeper.board.cell.CellSnapshotStatus;
 import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
 import cleancode.minesweeper.tobe.minesweeper.board.position.FixedLandMinePositionSelector;
 import cleancode.minesweeper.tobe.minesweeper.board.position.LandMinePositionSelector;
 import cleancode.minesweeper.tobe.minesweeper.board.position.RandomLandMinePositionSelector;
+import cleancode.minesweeper.tobe.minesweeper.gamelevel.GameLevel;
 import cleancode.minesweeper.tobe.minesweeper.gamelevel.VeryBeginner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,7 @@ class GameBoardTest {
         assertThat(gameBoard.getColSize()).isEqualTo(4);
     }
 
-    @DisplayName("지뢰가 설치된 셀을 열면, 해당 셀은 지뢰 셀로 표시된다.")
+    @DisplayName("지뢰가 설치된 셀을 열면, 지뢰 셀로 표시된다.")
     @Test
     void openAt_landMine() {
         // given
@@ -58,7 +60,7 @@ class GameBoardTest {
         assertThat(gameBoard.getSnapshot(cellPosition2).getStatus()).isEqualTo(CellSnapshotStatus.LAND_MINE);
     }
 
-    @DisplayName("지뢰에 인접한 셀을 열면, 해당 셀은 숫자 셀로 표시된다.")
+    @DisplayName("지뢰에 인접한 셀을 열면, 숫자 셀로 표시된다.")
     @Test
     void openAt_number() {
         // given
@@ -100,7 +102,7 @@ class GameBoardTest {
         assertThat(gameBoard.getSnapshot(cellPosition8).getStatus()).isEqualTo(CellSnapshotStatus.NUMBER);
     }
 
-    @DisplayName("지뢰에 인접하지 않은 셀을 열면, 해당 셀은 빈 셀로 표시된다.")
+    @DisplayName("지뢰에 인접하지 않은 셀을 열면, 빈 셀로 표시된다.")
     @Test
     void openAt_empty() {
         // given
@@ -124,23 +126,29 @@ class GameBoardTest {
         assertThat(gameBoard.getSnapshot(cellPosition2).getStatus()).isEqualTo(CellSnapshotStatus.EMPTY);
     }
 
-    @DisplayName("")
+    @DisplayName("지뢰, 숫자, 빈 셀 여부와 상관없이 셀에 깃발을 꽂으면, 깃발로 표시된다.")
     @Test
     void flagAt() {
         // given
+        GameLevel gameLevel = new VeryBeginner();
+
+        List<CellPosition> fixedPositions = List.of(CellPosition.of(0, 0), CellPosition.of(4, 3));
+        LandMinePositionSelector selector = new FixedLandMinePositionSelector(fixedPositions);
+
+        GameBoard gameBoard = new GameBoard(gameLevel, selector);
+
+        CellPosition cellPosition1 = CellPosition.of(0, 0);
+        CellPosition cellPosition2 = CellPosition.of(0, 1);
+        CellPosition cellPosition3 = CellPosition.of(0, 2);
 
         // when
+        gameBoard.flagAt(cellPosition1);
+        gameBoard.flagAt(cellPosition2);
+        gameBoard.flagAt(cellPosition3);
 
         // then
-    }
-
-    @DisplayName("")
-    @Test
-    void getSnapshot() {
-        // given
-
-        // when
-
-        // then
+        assertThat(gameBoard.getSnapshot(cellPosition1).getStatus()).isEqualTo(CellSnapshotStatus.FLAG);
+        assertThat(gameBoard.getSnapshot(cellPosition2).getStatus()).isEqualTo(CellSnapshotStatus.FLAG);
+        assertThat(gameBoard.getSnapshot(cellPosition3).getStatus()).isEqualTo(CellSnapshotStatus.FLAG);
     }
 }
