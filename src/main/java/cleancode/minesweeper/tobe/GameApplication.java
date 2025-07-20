@@ -1,6 +1,8 @@
 package cleancode.minesweeper.tobe;
 
 import cleancode.minesweeper.tobe.minesweeper.Minesweeper;
+import cleancode.minesweeper.tobe.minesweeper.board.position.LandMinePositionSelector;
+import cleancode.minesweeper.tobe.minesweeper.board.position.RandomLandMinePositionSelector;
 import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
 import cleancode.minesweeper.tobe.minesweeper.gamelevel.Advanced;
 import cleancode.minesweeper.tobe.minesweeper.gamelevel.VeryBeginner;
@@ -15,8 +17,9 @@ public class GameApplication {
                 new ConsoleInputHandler(),
                 new ConsoleOutputHandler()
         );
+        LandMinePositionSelector landMinePositionSelector = new RandomLandMinePositionSelector();
 
-        Minesweeper minesweeper = new Minesweeper(gameConfig);
+        Minesweeper minesweeper = new Minesweeper(gameConfig, landMinePositionSelector);
         minesweeper.initialize();
         minesweeper.run();
     }

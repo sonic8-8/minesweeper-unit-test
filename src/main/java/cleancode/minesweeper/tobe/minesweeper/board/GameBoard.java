@@ -1,5 +1,6 @@
 package cleancode.minesweeper.tobe.minesweeper.board;
 
+import cleancode.minesweeper.tobe.minesweeper.board.position.LandMinePositionSelector;
 import cleancode.minesweeper.tobe.minesweeper.gamelevel.GameLevel;
 import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
 import cleancode.minesweeper.tobe.minesweeper.board.position.CellPositions;
@@ -17,13 +18,15 @@ public class GameBoard {
     private final int landMineCount;
 
     private GameStatus gameStatus;
+    private final LandMinePositionSelector landMinePositionSelector;
 
-    public GameBoard(GameLevel gameLevel) {
+    public GameBoard(GameLevel gameLevel, LandMinePositionSelector landMinePositionSelector) {
         int rowSize = gameLevel.getRowSize();
         int colSize = gameLevel.getColSize();
         board = new Cell[rowSize][colSize];
 
         landMineCount = gameLevel.getLandMineCount();
+        this.landMinePositionSelector = landMinePositionSelector;
     }
 
     public void initializeGame() {
@@ -32,7 +35,7 @@ public class GameBoard {
 
         initializeEmptyCells(cellPositions);
 
-        List<CellPosition> landMinePositions = cellPositions.extractLandMinePositions(landMineCount);
+        List<CellPosition> landMinePositions = landMinePositionSelector.extractLandMinePositions(cellPositions, landMineCount);
         initializeLandMineCells(landMinePositions);
 
         List<CellPosition> numberPositionCandidates = cellPositions.subtract(landMinePositions);

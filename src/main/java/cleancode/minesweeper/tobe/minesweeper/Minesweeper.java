@@ -4,6 +4,7 @@ import cleancode.minesweeper.tobe.game.GameInitializable;
 import cleancode.minesweeper.tobe.game.GameRunnable;
 import cleancode.minesweeper.tobe.minesweeper.board.GameBoard;
 import cleancode.minesweeper.tobe.minesweeper.board.position.CellPosition;
+import cleancode.minesweeper.tobe.minesweeper.board.position.LandMinePositionSelector;
 import cleancode.minesweeper.tobe.minesweeper.config.GameConfig;
 import cleancode.minesweeper.tobe.minesweeper.exception.GameException;
 import cleancode.minesweeper.tobe.minesweeper.io.InputHandler;
@@ -16,8 +17,8 @@ public class Minesweeper implements GameRunnable, GameInitializable {
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
 
-    public Minesweeper(GameConfig gameConfig) {
-        gameBoard = new GameBoard(gameConfig.getGameLevel());
+    public Minesweeper(GameConfig gameConfig, LandMinePositionSelector landMinePositionSelector) {
+        gameBoard = new GameBoard(gameConfig.getGameLevel(), landMinePositionSelector);
         this.inputHandler = gameConfig.getInputHandler();
         this.outputHandler = gameConfig.getOutputHandler();
     }
